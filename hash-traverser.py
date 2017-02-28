@@ -5,17 +5,20 @@ import hmac
 import os
 import sys
 
-# Limited to small files. Currently cannot handle large files
-def hmac_sha(filename, key=""):
-    file = open(filename, 'rb')
-    try:
-        body = file.read()
-    finally:
-        file.close()
-
+def hmac_sha1(filename, key=""):
     seed = key.encode('utf-8')
-    digest = hmac.new(seed, body, hashlib.sha1).hexdigest()
-    return digest
+    sig = hmac.new(seed, None, hashlib.sha1)
+    for chunk in chunks(filename):
+        sig.update(chunk)
+    return sig.hexdigest()
+
+def chunks(filename):
+    with open(filename, 'rb') as file:
+        while True:
+            chunk = file.read(1024)
+            if not chunk:
+                break
+            yield chunk
 
 def find_files(directory, pattern):
     for root, dirs, files in os.walk(directory):
@@ -26,11 +29,11 @@ def find_files(directory, pattern):
 
 def main():
     if (len(sys.argv) < 2):
-        print("Usage: {0} filepath".format(sys.argv[0]))
+        print("Usage: {0} root-dir".format(sys.argv[0]))
         sys.exit(1)
 
     for filepath in find_files(sys.argv[1], '*'):
-        print("{0}, {1}".format(hmac_sha(filepath), filepath))
+        print("hash: {0}, filepath: {1}".format(hmac_sha1(filepath), filepath))
 
 if __name__ == '__main__':
     main()
