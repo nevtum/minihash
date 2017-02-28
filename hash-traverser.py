@@ -20,7 +20,11 @@ def find_files(directory, pattern):
                 yield filename
 
 def main():
-    for filepath in find_files('.', '*'):
+    if (len(sys.argv) < 2):
+        print("Usage: {0} filepath".format(sys.argv[0]))
+        return
+
+    for filepath in find_files(sys.argv[1], '*'):
         print("{0}, {1}".format(hmac_sha(filepath), filepath))
 
 if __name__ == '__main__':
