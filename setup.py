@@ -4,9 +4,9 @@ def readme():
     with open('README.md') as f:
         return f.read()
 
-setup(name = 'Hash-Traverser',
+setup(name = 'Minihash',
       version = '0.1',
-      description = 'A tool that recursively traverses directories and takes file HMAC-SHA1 calculations.',
+      description = 'Recursively traverse directories and take file HMAC-SHA1 calculations.',
       long_description = readme(),
       classifiers = [
           'Programming Language :: Python :: 3.4',
