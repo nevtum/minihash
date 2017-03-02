@@ -21,14 +21,14 @@ def chunks(filename):
             yield chunk
 
 def find_files(directory, pattern):
-    for root, dirs, files in os.walk(directory):
+    for root, _, files in os.walk(directory):
         for basename in files:
             if fnmatch.fnmatch(basename, pattern):
                 filename = os.path.join(root, basename)
                 yield filename
 
 def main():
-    if (len(sys.argv) < 2):
+    if len(sys.argv) < 2:
         print("Usage: {0} root-dir".format(sys.argv[0]))
         sys.exit(1)
 
