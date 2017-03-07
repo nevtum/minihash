@@ -12,6 +12,12 @@ def hmac_sha1(filename, key=""):
         sig.update(chunk)
     return sig.hexdigest()
 
+def sha1(filename):
+    sig = hashlib.sha1()
+    for chunk in chunks(filename):
+        sig.update(chunk)
+    return sig.hexdigest()
+
 def chunks(filename):
     with open(filename, 'rb') as file:
         while True:
@@ -33,7 +39,8 @@ def main():
         sys.exit(1)
 
     for filepath in find_files(sys.argv[1], '*'):
-        print("hash: {0}, filepath: {1}".format(hmac_sha1(filepath), filepath))
+        print("hmac-sha1: {0}, filepath: {1}".format(hmac_sha1(filepath), filepath))
+        # print("sha1: {0}, filepath: {1}".format(sha1(filepath), filepath))
 
 if __name__ == '__main__':
     main()
