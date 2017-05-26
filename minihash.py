@@ -39,7 +39,10 @@ def main():
         sys.exit(1)
 
     for filepath in find_files(sys.argv[1], '*'):
-        print("hmac-sha1: {0}, filepath: {1}".format(hmac_sha1(filepath), filepath))
+        try:
+            print("hmac-sha1: {0}, filepath: {1}".format(hmac_sha1(filepath), filepath))
+        except:
+            print("Could not generate hash for %s" % filepath)
         # print("sha1: {0}, filepath: {1}".format(sha1(filepath), filepath))
 
 if __name__ == '__main__':
